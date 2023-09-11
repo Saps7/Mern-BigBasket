@@ -29,12 +29,16 @@ export default function ProfileScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
+  const [ dispatch] = useReducer(reducer, {
     loadingUpdate: false,
   });
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if(password !== confirmPassword){
+      toast.error('Passwords do not match');
+      return;
+    }
     try {
       const { data } = await axios.put(
         '/api/users/profile',
